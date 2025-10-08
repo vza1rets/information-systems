@@ -1,9 +1,5 @@
 from datetime import datetime, time
 
-inputDish_str = '"Плов узбекский" 350.75 01.30'
-inputMenu_str = '"Летнее меню" "Основные блюда" 2024.06.01 True'
-inputOrder_str = '1543 "Плов узбекский" 2 14.30 701.50'
-
 
 def trytoparse_dish(input_str):
     parts = input_str.split('"')
@@ -50,6 +46,36 @@ def trytoparse_order(input_str):
     return result
 
 
-print(trytoparse_dish(inputDish_str))
-print(trytoparse_menu(inputMenu_str))
-print(trytoparse_order(inputOrder_str))
+def main():
+    print('file or string?')
+    typee = input()
+    strings = []
+    if typee.lower() == 'file':
+        path = input('Введите путь к файлу: ')
+        try:
+            with open(f'{path}', encoding='utf-8') as f:
+                strings = f.readlines()
+                strings = [line.rstrip() for line in strings]
+        except:
+            print('Не удалось открыть файл')
+    elif typee.lower() == 'string':
+        print('Введите строку')
+        strings.append(input())
+
+    print('Какой тип объектов? (dish/menu/order)')
+    object_type = input().lower()
+
+    for string in strings:
+        if string.strip():
+            if object_type == 'dish':
+                print(trytoparse_dish(string))
+            elif object_type == 'menu':
+                print(trytoparse_menu(string))
+            elif object_type == 'order':
+                print(trytoparse_order(string))
+            else:
+                print("Неизвестный тип объекта")
+
+
+if __name__ == "__main__":
+    main()
